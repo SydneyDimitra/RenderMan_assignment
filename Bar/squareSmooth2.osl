@@ -1,0 +1,27 @@
+shader squareSmooth2 (
+output	float resultF=0
+)
+{
+
+    float repeatCount=4;
+    float s=mod(repeatCount*u,1);
+    float t=mod(repeatCount*v,1);
+
+    point centre=point (0.5,0.5,0);
+    point here=point (s,t,0);
+    float dist=distance(centre,here);
+    float blend=0.8;
+    float min1= 0;
+    float max1= 1;
+    float blur= 0.05;
+    float fuzz= 0.2;
+    
+
+    blend=10*smoothstep(min1,min1+fuzz,s)* (1-smoothstep(max1-fuzz,max1,s))*
+               smoothstep(min1,max1,t)* (1-smoothstep(min1,max1,t));
+
+
+    resultF=blend;
+}
+
+

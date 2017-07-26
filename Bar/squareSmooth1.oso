@@ -1,0 +1,111 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader squareSmooth1
+oparam	float	resultF	0		%read{2147483647,-1} %write{34,34}
+global	float	u	%read{1,1} %write{2147483647,-1}
+global	float	v	%read{7,7} %write{2147483647,-1}
+local	float	repeatCount	%read{1,7} %write{0,0}
+local	float	s	%read{14,24} %write{6,6}
+local	float	t	%read{14,31} %write{12,12}
+local	point	centre	%read{15,15} %write{13,13}
+local	point	here	%read{15,15} %write{14,14}
+local	float	dist	%read{2147483647,-1} %write{15,15}
+local	float	radius	%read{34,34} %write{16,33}
+local	float	min1	%read{20,28} %write{17,17}
+local	float	max1	%read{23,31} %write{18,18}
+local	float	blur	%read{20,30} %write{19,19}
+const	int	$const1	1		%read{0,18} %write{2147483647,-1}
+temp	float	$tmp1	%read{3,6} %write{1,1}
+const	float	$const2	1		%read{3,32} %write{2147483647,-1}
+const	string	$const3	"mod"		%read{2,8} %write{2147483647,-1}
+temp	float	$tmp2	%read{5,5} %write{4,4}
+temp	float	$tmp3	%read{4,4} %write{3,3}
+temp	float	$tmp4	%read{6,6} %write{5,5}
+temp	float	$tmp5	%read{9,12} %write{7,7}
+temp	float	$tmp6	%read{11,11} %write{10,10}
+temp	float	$tmp7	%read{10,10} %write{9,9}
+temp	float	$tmp8	%read{12,12} %write{11,11}
+const	point	$const4	0.5 0.5 0		%read{13,13} %write{2147483647,-1}
+const	int	$const5	0		%read{17,17} %write{2147483647,-1}
+const	float	$const6	0		%read{14,14} %write{2147483647,-1}
+const	float	$const7	0.1		%read{16,16} %write{2147483647,-1}
+const	float	$const8	0.25		%read{19,19} %write{2147483647,-1}
+const	float	$const9	1.3		%read{22,22} %write{2147483647,-1}
+temp	float	$tmp9	%read{22,22} %write{21,21}
+temp	float	$tmp10	%read{21,21} %write{20,20}
+temp	float	$tmp11	%read{26,26} %write{22,22}
+temp	float	$tmp12	%read{25,25} %write{24,24}
+temp	float	$tmp13	%read{24,24} %write{23,23}
+temp	float	$tmp14	%read{26,26} %write{25,25}
+temp	float	$tmp15	%read{29,29} %write{26,26}
+temp	float	$tmp16	%read{29,29} %write{28,28}
+temp	float	$tmp17	%read{28,28} %write{27,27}
+temp	float	$tmp18	%read{33,33} %write{29,29}
+temp	float	$tmp19	%read{32,32} %write{31,31}
+temp	float	$tmp20	%read{31,31} %write{30,30}
+temp	float	$tmp21	%read{33,33} %write{32,32}
+code ___main___
+# squareSmooth1.osl:6
+#     float repeatCount=1;
+	assign		repeatCount $const1 	%filename{"squareSmooth1.osl"} %line{6} %argrw{"wr"}
+# squareSmooth1.osl:7
+#     float s=mod(repeatCount*u,1);
+	mul		$tmp1 repeatCount u 	%line{7} %argrw{"wrr"}
+	functioncall	$const3 7 	%argrw{"r"}
+# /opt/pixar/RenderManProServer-20.10/lib/osl/include/stdosl.h:135
+# vector mod (vector a, vector b) { return a - b*floor(a/b); }
+	div		$tmp3 $tmp1 $const2 	%filename{"/opt/pixar/RenderManProServer-20.10/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp2 $tmp3 	%argrw{"wr"}
+	mul		$tmp4 $const2 $tmp2 	%argrw{"wrr"}
+	sub		s $tmp1 $tmp4 	%argrw{"wrr"}
+# squareSmooth1.osl:8
+#     float t=mod(repeatCount*v,1);
+	mul		$tmp5 repeatCount v 	%filename{"squareSmooth1.osl"} %line{8} %argrw{"wrr"}
+	functioncall	$const3 13 	%argrw{"r"}
+# /opt/pixar/RenderManProServer-20.10/lib/osl/include/stdosl.h:135
+# point  mod (point  a, point  b) { return a - b*floor(a/b); }
+	div		$tmp7 $tmp5 $const2 	%filename{"/opt/pixar/RenderManProServer-20.10/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp6 $tmp7 	%argrw{"wr"}
+	mul		$tmp8 $const2 $tmp6 	%argrw{"wrr"}
+	sub		t $tmp5 $tmp8 	%argrw{"wrr"}
+# squareSmooth1.osl:10
+#     point centre=point (0.5,0.5,0);
+	assign		centre $const4 	%filename{"squareSmooth1.osl"} %line{10} %argrw{"wr"}
+# squareSmooth1.osl:11
+#     point here=point (s,t,0);
+	point		here s t $const6 	%line{11} %argrw{"wrrr"}
+# squareSmooth1.osl:12
+#     float dist=distance(centre,here);
+	distance	dist centre here 	%line{12} %argrw{"wrr"}
+# squareSmooth1.osl:13
+#     float radius=0.1;
+	assign		radius $const7 	%line{13} %argrw{"wr"}
+# squareSmooth1.osl:14
+#     float min1= 0;
+	assign		min1 $const5 	%line{14} %argrw{"wr"}
+# squareSmooth1.osl:15
+#     float max1= 1;
+	assign		max1 $const1 	%line{15} %argrw{"wr"}
+# squareSmooth1.osl:16
+#     float blur= 0.25;
+	assign		blur $const8 	%line{16} %argrw{"wr"}
+# squareSmooth1.osl:19
+#     radius=1.3*smoothstep(min1,min1+blur,s)* (1-smoothstep(max1-blur,max1,s))*smoothstep(min1,min1+blur,t)* (1-smoothstep(max1-blur,max1,t));
+	add		$tmp10 min1 blur 	%line{19} %argrw{"wrr"}
+	smoothstep	$tmp9 min1 $tmp10 s 	%argrw{"wrrr"}
+	mul		$tmp11 $const9 $tmp9 	%argrw{"wrr"}
+	sub		$tmp13 max1 blur 	%argrw{"wrr"}
+	smoothstep	$tmp12 $tmp13 max1 s 	%argrw{"wrrr"}
+	sub		$tmp14 $const2 $tmp12 	%argrw{"wrr"}
+	mul		$tmp15 $tmp11 $tmp14 	%argrw{"wrr"}
+	add		$tmp17 min1 blur 	%argrw{"wrr"}
+	smoothstep	$tmp16 min1 $tmp17 t 	%argrw{"wrrr"}
+	mul		$tmp18 $tmp15 $tmp16 	%argrw{"wrr"}
+	sub		$tmp20 max1 blur 	%argrw{"wrr"}
+	smoothstep	$tmp19 $tmp20 max1 t 	%argrw{"wrrr"}
+	sub		$tmp21 $const2 $tmp19 	%argrw{"wrr"}
+	mul		radius $tmp18 $tmp21 	%argrw{"wrr"}
+# squareSmooth1.osl:22
+#     resultF=radius;
+	assign		resultF radius 	%line{22} %argrw{"wr"}
+	end

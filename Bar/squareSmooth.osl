@@ -1,0 +1,25 @@
+shader squareSmooth (
+output	float resultF=0
+)
+{
+
+    float repeatCount=4;
+    float s=mod(repeatCount*u+0.03,1);
+    float t=mod(repeatCount*v+0.03,1);
+
+    point centre=point (0.5,0.5,0);
+    point here=point (s,t,0);
+    float dist=distance(centre,here);
+    float radius=0.1;
+    float min1= 0;
+    float max1= 1;
+    float blur= 0.25;
+    
+
+    radius=1.3*smoothstep(min1,min1+blur,s)* (1-smoothstep(max1-blur,max1,s))*smoothstep(min1,min1+blur,t)* (1-smoothstep(max1-blur,max1,t));
+
+
+    resultF=radius;
+}
+
+
