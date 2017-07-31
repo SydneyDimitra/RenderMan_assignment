@@ -7,4 +7,4 @@ and the scene is populated by a marble table surface where the bar is placed, a 
 The project was completed using Python code that generated the rib file for RenderMan.
 
 
-![alt text] (https://github.com/SydneyDimitra/RenderMan_assignment/blob/master/Final_Renders/Final1.png)
+![alt text](https://github.com/SydneyDimitra/RenderMan_assignment/blob/master/Final_Renders/Final1.png)
