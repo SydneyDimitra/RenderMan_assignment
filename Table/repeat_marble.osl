@@ -1,0 +1,15 @@
+shader repeat (
+	float repeat=4, 
+    color Cin=1,
+    string filename="",
+output	color Cout=1
+)
+{	
+    float ss=fmod(u*repeat, 1.0);
+    float tt=fmod(v*repeat, 1.0);
+    if(filename !="")
+        Cout=(color)texture(filename,ss,tt);
+    else 
+        Cout=color(1,0,0);
+}
+
