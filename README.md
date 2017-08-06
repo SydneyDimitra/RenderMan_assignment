@@ -7,12 +7,12 @@ and the scene is populated by a marble table surface where the bar is placed, a 
 The project was completed using Python code that generated the rib file for RenderMan.
 
 ## Repository contents
-BAR
-ENVIRONMENT
-FINAL_RENDERS
-NOISE
-TABLE
-COMMON
+* BAR
+* ENVIRONMENT
+* FINAL_RENDERS
+* NOISE
+* TABLE
+* COMMON
 
 ## Execution
 First the shader were compiled using the 'oslc *.osl' command line in the Linuxx terminal, 
